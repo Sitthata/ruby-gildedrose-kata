@@ -5,7 +5,7 @@ end
 
 require 'rspec'
 
-require File.join(File.dirname(__FILE__), 'gilded_rose')
+require File.join(File.dirname(__FILE__), './src/gilded_rose')
 
 describe GildedRose do
 
