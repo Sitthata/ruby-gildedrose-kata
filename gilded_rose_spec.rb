@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/spec/'  # Adjust this filter to exclude directories like your test files
+end
+
 require 'rspec'
 
 require File.join(File.dirname(__FILE__), 'gilded_rose')
@@ -10,13 +15,15 @@ describe GildedRose do
 
   let(:trash_item) {Item.new(name="Rusted Sword", sell_in=0, quality=0)}
 
-  let(:aged_brie) {Item.new(name="Aged Brie", sell_in=5, quality=0)}
+  let(:aged_brie) {Item.new(name="Aged Brie", sell_in=10, quality=0)}
+
+  let(:expired_aged_brie) {Item.new(name="Aged Brie", sell_in=0, quality=10)}
 
   let(:sulfuras) {Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=80)}
 
   let(:conjured) {Item.new(name="Conjured Mana Cake", sell_in=3, quality=6)}
 
-  let(:items) {[normal_item, expired_item, aged_brie, sulfuras, conjured]}
+  let(:items) {[normal_item, expired_item, aged_brie, sulfuras, conjured, expired_aged_brie]}
 
   let(:gilded_rose) {GildedRose.new(items)}
 
@@ -46,6 +53,12 @@ describe GildedRose do
   it "update quality for 'Aged Brie' is an item that will increase the quality by 1 per day the older it's get" do
     gilded_rose.update_quality
     expect(aged_brie.quality).to eq 1
+    
+  end
+
+  it "update quality for expired 'Aged Brie' by 2 when sell in is negative" do
+    gilded_rose.update_quality
+    expect(expired_aged_brie.quality).to eq 12
   end
 
   it "update quality for 'Sulfuras' is a legendary item which will not decrease in quality and never has to be sold" do
