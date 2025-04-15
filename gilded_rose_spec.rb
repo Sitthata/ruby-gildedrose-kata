@@ -14,7 +14,9 @@ describe GildedRose do
 
   let(:sulfuras) {Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=80)}
 
-  let(:items) {[normal_item, expired_item, aged_brie, sulfuras]}
+  let(:conjured) {Item.new(name="Conjured Mana Cake", sell_in=3, quality=6)}
+
+  let(:items) {[normal_item, expired_item, aged_brie, sulfuras, conjured]}
 
   let(:gilded_rose) {GildedRose.new(items)}
 
@@ -81,4 +83,10 @@ describe GildedRose do
     expect(sulfuras.quality).to eq 80
   end
 
+  # This doesn't work yet
+  it "decrease the quality of the conjured item by 2 (twice as fast)" do
+    gilded_rose.update_quality
+
+    expect(conjured.quality).to eq 4
+  end
 end
