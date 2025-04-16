@@ -5,7 +5,10 @@ end
 
 require 'rspec'
 
-require File.join(File.dirname(__FILE__), './src/gilded_rose')
+require File.join(File.dirname(__FILE__),'src', 'gilded_rose')
+require File.join(File.dirname(__FILE__), 'src', 'item')
+
+# require File.join(File.dirname(__FILE__), 'gilded_rose')
 
 describe GildedRose do
 
@@ -23,7 +26,9 @@ describe GildedRose do
 
   let(:conjured) {Item.new(name="Conjured Mana Cake", sell_in=3, quality=6)}
 
-  let(:items) {[normal_item, expired_item, aged_brie, sulfuras, conjured, expired_aged_brie]}
+  let(:expired_conjured) {Item.new(name="Conjured Mana Cake", sell_in=0, quality=6)}
+
+  let(:items) {[normal_item, expired_item, aged_brie, sulfuras, conjured, expired_aged_brie, expired_conjured]}
 
   let(:gilded_rose) {GildedRose.new(items)}
 
@@ -99,7 +104,12 @@ describe GildedRose do
   # This doesn't work yet
   it "decrease the quality of the conjured item by 2 (twice as fast)" do
     gilded_rose.update_quality
-
     expect(conjured.quality).to eq 4
+    
+  end
+
+  it "decrease the quality of the expired conjured item by 4" do
+    gilded_rose.update_quality
+    expect(expired_conjured.quality).to eq 2
   end
 end
