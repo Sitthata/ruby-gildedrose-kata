@@ -6,6 +6,10 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
+      if item.name == "Sulfuras, Hand of Ragnaros"
+        next
+      end
+
       if item.name.downcase == "aged brie"
         update_aged_brie item
         next
@@ -49,6 +53,8 @@ class GildedRose
     else
       aged_brie.quality += 1
     end
+
+    cap_quality aged_brie
   end
 
   def update_backstage_pass(backstage_pass)
@@ -64,6 +70,8 @@ class GildedRose
     else
       backstage_pass.quality += 1
     end
+
+    cap_quality backstage_pass
   end
 
   def update_conjured(conjured)
@@ -78,5 +86,11 @@ class GildedRose
     end
 
     conjured.quality -= 2
+  end
+
+  def cap_quality(item)
+    if item.name != "Sulfuras, Hand of Ragnaros" && item.quality > 50
+      item.quality = 50
+    end
   end
 end
